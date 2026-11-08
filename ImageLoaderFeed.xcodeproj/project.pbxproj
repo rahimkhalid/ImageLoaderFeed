@@ -6,20 +6,27 @@
 	objectVersion = 90;
 	objects = {
 
-/* Begin PBXBuildFile section */
-		C6D7BA1230A10B4C00596D5A /* Secrets.xcconfig.example in Resources */ = {isa = PBXBuildFile; fileRef = C6D7BA1030A10B4C00596D5A /* Secrets.xcconfig.example */; };
-		C6D7BA1330A10B4C00596D5A /* Secrets.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = C6D7BA0F30A10B4C00596D5A /* Secrets.xcconfig */; };
-/* End PBXBuildFile section */
-
 /* Begin PBXFileReference section */
 		000000000000000000000120 /* ImageLoaderFeed.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ImageLoaderFeed.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		C6D7BA0F30A10B4C00596D5A /* Secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
-		C6D7BA1030A10B4C00596D5A /* Secrets.xcconfig.example */ = {isa = PBXFileReference; lastKnownFileType = text; path = Secrets.xcconfig.example; sourceTree = "<group>"; };
+		C6A100000000000000000001 /* Configuration/Secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Configuration/Secrets.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		C6D7BA1D30A10D7700596D5A /* Exceptions for "ImageLoaderFeed" folder in "ImageLoaderFeed" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 000000000000000100000000 /* ImageLoaderFeed */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		000000000000000000000010 /* ImageLoaderFeed */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				C6D7BA1D30A10D7700596D5A /* Exceptions for "ImageLoaderFeed" folder in "ImageLoaderFeed" target */,
+			);
 			path = ImageLoaderFeed;
 			sourceTree = "<group>";
 		};
@@ -37,8 +44,8 @@
 		000000000000000000000001 = {
 			isa = PBXGroup;
 			children = (
-				C6D7BA1130A10B4C00596D5A /* Configuration */,
 				000000000000000000000010 /* ImageLoaderFeed */,
+				C6A100000000000000000001 /* Configuration/Secrets.xcconfig */,
 				000000000000000000000020 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -49,15 +56,6 @@
 				000000000000000000000120 /* ImageLoaderFeed.app */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		C6D7BA1130A10B4C00596D5A /* Configuration */ = {
-			isa = PBXGroup;
-			children = (
-				C6D7BA0F30A10B4C00596D5A /* Secrets.xcconfig */,
-				C6D7BA1030A10B4C00596D5A /* Secrets.xcconfig.example */,
-			);
-			path = Configuration;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -119,8 +117,6 @@
 		000000000000000140000000 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			files = (
-				C6D7BA1230A10B4C00596D5A /* Secrets.xcconfig.example in Resources */,
-				C6D7BA1330A10B4C00596D5A /* Secrets.xcconfig in Resources */,
 			);
 		};
 /* End PBXResourcesBuildPhase section */
@@ -268,6 +264,7 @@
 		};
 		000000000000000111000000 /* Debug configuration for PBXNativeTarget "ImageLoaderFeed" */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C6A100000000000000000001 /* Configuration/Secrets.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -276,6 +273,7 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ImageLoaderFeed/Info.plist;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -308,6 +306,7 @@
 		};
 		000000000000000112000000 /* Release configuration for PBXNativeTarget "ImageLoaderFeed" */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C6A100000000000000000001 /* Configuration/Secrets.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -316,6 +315,7 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ImageLoaderFeed/Info.plist;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
