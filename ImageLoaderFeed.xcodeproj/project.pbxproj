@@ -6,8 +6,15 @@
 	objectVersion = 90;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		C6D7BA1230A10B4C00596D5A /* Secrets.xcconfig.example in Resources */ = {isa = PBXBuildFile; fileRef = C6D7BA1030A10B4C00596D5A /* Secrets.xcconfig.example */; };
+		C6D7BA1330A10B4C00596D5A /* Secrets.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = C6D7BA0F30A10B4C00596D5A /* Secrets.xcconfig */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		000000000000000000000120 /* ImageLoaderFeed.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ImageLoaderFeed.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C6D7BA0F30A10B4C00596D5A /* Secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
+		C6D7BA1030A10B4C00596D5A /* Secrets.xcconfig.example */ = {isa = PBXFileReference; lastKnownFileType = text; path = Secrets.xcconfig.example; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -30,6 +37,7 @@
 		000000000000000000000001 = {
 			isa = PBXGroup;
 			children = (
+				C6D7BA1130A10B4C00596D5A /* Configuration */,
 				000000000000000000000010 /* ImageLoaderFeed */,
 				000000000000000000000020 /* Products */,
 			);
@@ -41,6 +49,15 @@
 				000000000000000000000120 /* ImageLoaderFeed.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		C6D7BA1130A10B4C00596D5A /* Configuration */ = {
+			isa = PBXGroup;
+			children = (
+				C6D7BA0F30A10B4C00596D5A /* Secrets.xcconfig */,
+				C6D7BA1030A10B4C00596D5A /* Secrets.xcconfig.example */,
+			);
+			path = Configuration;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -102,6 +119,8 @@
 		000000000000000140000000 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			files = (
+				C6D7BA1230A10B4C00596D5A /* Secrets.xcconfig.example in Resources */,
+				C6D7BA1330A10B4C00596D5A /* Secrets.xcconfig in Resources */,
 			);
 		};
 /* End PBXResourcesBuildPhase section */
