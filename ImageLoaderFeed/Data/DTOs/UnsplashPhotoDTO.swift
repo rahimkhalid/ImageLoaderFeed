@@ -1,5 +1,9 @@
 import Foundation
 
+struct UnsplashSearchPhotosDTO: Decodable {
+    let results: [UnsplashPhotoDTO]
+}
+
 struct UnsplashPhotoDTO: Decodable {
     let id: String
     let altDescription: String?

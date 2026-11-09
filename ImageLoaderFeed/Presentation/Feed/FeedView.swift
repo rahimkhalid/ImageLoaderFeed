@@ -4,11 +4,6 @@ struct FeedView: View {
     @StateObject private var viewModel: FeedViewModel
     @StateObject private var router: AppRouter
 
-    private let columns = [
-        GridItem(.flexible(), spacing: Spacing.medium, alignment: .top),
-        GridItem(.flexible(), spacing: Spacing.medium, alignment: .top)
-    ]
-
     init(viewModel: FeedViewModel, router: AppRouter) {
         _viewModel = StateObject(wrappedValue: viewModel)
         _router = StateObject(wrappedValue: router)
@@ -18,15 +13,21 @@ struct FeedView: View {
         NavigationStack {
             content
                 .navigationTitle(AppStrings.photoFeedTitle)
-                .task {
-                    await viewModel.loadIfNeeded()
-                }
+        }
+        .searchable(
+            text: $viewModel.searchQuery,
+            placement: .navigationBarDrawer(displayMode: .always),
+            prompt: AppStrings.searchPhotosPrompt
+        )
+        .task {
+            viewModel.loadIfNeeded()
         }
         .allowsHitTesting(router.presentedRoute == nil)
         .overlay {
             if let route = router.presentedRoute {
                 router.destination(for: route)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .background(.background)
                     .transition(.scale(scale: 0.96).combined(with: .opacity))
                     .zIndex(1)
             }
@@ -45,7 +46,7 @@ struct FeedView: View {
             photoGrid(photos: photos)
         case .failed(let message):
             errorView(message: message) {
-                await viewModel.loadPhotos()
+                viewModel.loadPhotos()
             }
         }
     }
@@ -67,40 +68,24 @@ struct FeedView: View {
 
     @ViewBuilder
     private func photoGrid(photos: [Photo]) -> some View {
-        ScrollView {
-            LazyVGrid(columns: columns, alignment: .leading, spacing: Spacing.extraLarge) {
-                ForEach(photos) { photo in
-                    PhotoCell(photo: photo)
-                        .contentShape(Rectangle())
-                        .onTapGesture {
-                            router.showPhoto(photo)
-                        }
-                        .onAppear {
-                            Task {
-                                await viewModel.loadNextPageIfNeeded(currentPhotoID: photo.id)
-                            }
-                        }
-                }
-            }
-            .padding(.horizontal, Spacing.large)
-            .padding(.vertical, Spacing.medium)
+        PhotoGridView(
+            photos: photos,
+            onSelect: router.showPhoto,
+            onPhotoAppear: viewModel.loadNextPageIfNeeded
+        ) {
             paginationFooter
         }
     }
 
     @ViewBuilder
-    private func errorView(message: String, retry: @escaping () async -> Void) -> some View {
+    private func errorView(message: String, retry: @escaping () -> Void) -> some View {
         ContentUnavailableView {
             Label(AppStrings.loadPhotosErrorTitle, systemImage: "exclamationmark.triangle")
         } description: {
             Text(message)
         } actions: {
-            Button(AppStrings.tryAgain) {
-                Task {
-                    await retry()
-                }
-            }
-            .buttonStyle(.bordered)
+            Button(AppStrings.tryAgain, action: retry)
+                .buttonStyle(.bordered)
         }
     }
 
@@ -112,7 +97,7 @@ struct FeedView: View {
                 .padding(.vertical, Spacing.large)
         } else if let message = viewModel.nextPageError {
             errorView(message: message) {
-                await viewModel.retryNextPage()
+                viewModel.retryNextPage()
             }
             .frame(maxWidth: .infinity)
             .padding(Spacing.large)

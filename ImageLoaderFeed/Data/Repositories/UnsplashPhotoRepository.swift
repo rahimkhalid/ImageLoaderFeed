@@ -24,9 +24,29 @@ struct UnsplashPhotoRepository: PhotoRepository {
 
             switch await apiClient.send(request) {
             case .success(let data):
-                let decoder = JSONDecoder()
-                let response = try decoder.decode([UnsplashPhotoDTO].self, from: data)
+                let response = try JSONDecoder().decode([UnsplashPhotoDTO].self, from: data)
                 return .success(response.map { $0.toPhoto() })
+            case .failure(let error):
+                return .failure(mapAPIError(error))
+            }
+        } catch {
+            return .failure(mapAPIError(error))
+        }
+    }
+
+    func searchPhotos(query: String, page: Int, perPage: Int) async -> Result<[Photo], Error> {
+        do {
+            let request = try APIRequest(
+                endpoint: .searchPhotos(query: query, page: page, perPage: perPage),
+                headers: [
+                    "Authorization": "Client-ID \(accessKey)"
+                ]
+            ).makeURLRequest()
+
+            switch await apiClient.send(request) {
+            case .success(let data):
+                let response = try JSONDecoder().decode(UnsplashSearchPhotosDTO.self, from: data)
+                return .success(response.results.map { $0.toPhoto() })
             case .failure(let error):
                 return .failure(mapAPIError(error))
             }

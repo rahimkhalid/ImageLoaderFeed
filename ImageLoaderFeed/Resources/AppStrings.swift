@@ -1,5 +1,6 @@
 enum AppStrings {
     static let photoFeedTitle = "Photo Feed"
+    static let searchPhotosPrompt = "Search photos"
     static let loadingPhotos = "Loading photos…"
     static let loadingPhoto = "Loading photo…"
     static let noPhotosTitle = "No photos yet"
