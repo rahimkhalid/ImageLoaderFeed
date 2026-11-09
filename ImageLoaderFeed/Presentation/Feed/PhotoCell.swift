@@ -1,44 +1,49 @@
 import SwiftUI
 
 struct PhotoCell: View {
-    let caption: String
-    let image: Image?
+    private let photo: Photo
 
-    init(caption: String, image: Image? = nil) {
-        self.caption = caption
-        self.image = image
+    init(photo: Photo) {
+        self.photo = photo
     }
 
     var body: some View {
         VStack(alignment: .leading, spacing: Spacing.small) {
             GeometryReader { geometry in
-                Group {
-                    if let image {
+                AsyncImage(url: photo.feedImage) { phase in
+                    switch phase {
+                    case .success(let image):
                         image
                             .resizable()
                             .scaledToFill()
-                    } else {
-                        Image(systemName: "photo") //TODO: use actual image here
+                    default:
+                        Image(systemName: "photo")
                     }
                 }
                 .frame(width: geometry.size.width, height: geometry.size.height)
             }
                 .aspectRatio(AspectRatio.portrait, contentMode: .fit)
-                .background(.quaternary)
                 .clipShape(RoundedRectangle(cornerRadius: CornerRadius.medium))
 
-            Text(caption)
+            Text(photo.caption)
                 .font(.subheadline)
                 .foregroundStyle(.primary)
-                .lineLimit(2, reservesSpace: true)
+                .lineLimit(1)
                 .frame(maxWidth: .infinity, alignment: .leading)
+            
+            if let photographerName = photo.photographerName {
+                Text(AppStrings.photographerAttribution(photographerName))
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .lineLimit(2)
+            }
         }
     }
 }
 
 struct PhotoCell_Previews: PreviewProvider {
     static var previews: some View {
-        PhotoCell(caption: "A longer photo description that wraps onto a second line.")
+        PhotoCell(photo: .init(id: "1", caption: AppStrings.previewPhotoDescription, imageURL: nil, photographerName: nil))
             .frame(width: 170)
             .padding(Spacing.large)
     }

@@ -1,6 +1,6 @@
 import Foundation
 
-struct AppConfiguration {
+struct ServiceConfiguration {
     let unsplashAccessKey: String
 
     init(bundle: Bundle = .main) throws {
@@ -12,17 +12,10 @@ struct AppConfiguration {
         guard !key.isEmpty,
               key != "YOUR_UNSPLASH_ACCESS_KEY",
               !key.contains("$(") else {
-            throw ConfigurationError.missingUnsplashAccessKey
+            throw AppError.missingUnsplashAccessKey
         }
 
         unsplashAccessKey = key
     }
 }
 
-enum ConfigurationError: LocalizedError {
-    case missingUnsplashAccessKey
-
-    var errorDescription: String? {
-        "The Unsplash Access Key is missing. Configure Secrets.xcconfig and rebuild."
-    }
-}
