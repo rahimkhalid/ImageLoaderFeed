@@ -22,9 +22,16 @@ struct FeedView: View {
                     await viewModel.loadIfNeeded()
                 }
         }
-        .fullScreenCover(item: $router.presentedRoute) { route in
-            router.destination(for: route)
+        .allowsHitTesting(router.presentedRoute == nil)
+        .overlay {
+            if let route = router.presentedRoute {
+                router.destination(for: route)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .transition(.scale(scale: 0.96).combined(with: .opacity))
+                    .zIndex(1)
+            }
         }
+        .animation(.easeInOut(duration: 0.4), value: router.presentedRoute?.id)
     }
 
     @ViewBuilder
