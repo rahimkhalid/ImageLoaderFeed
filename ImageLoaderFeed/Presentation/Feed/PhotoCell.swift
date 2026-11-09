@@ -2,29 +2,24 @@ import SwiftUI
 
 struct PhotoCell: View {
     private let photo: Photo
-
+    
     init(photo: Photo) {
         self.photo = photo
     }
-
+    
     var body: some View {
         VStack(alignment: .leading, spacing: Spacing.small) {
             GeometryReader { geometry in
-                AsyncImage(url: photo.feedImage) { phase in
-                    switch phase {
-                    case .success(let image):
-                        image
-                            .resizable()
-                            .scaledToFill()
-                    default:
-                        Image(systemName: "photo")
-                    }
-                }
+                PhotoImage(
+                    url: photo.feedImage,
+                    cachedImageData: photo.cachedImageData,
+                    contentMode: .fill
+                )
                 .frame(width: geometry.size.width, height: geometry.size.height)
             }
-                .aspectRatio(AspectRatio.portrait, contentMode: .fit)
-                .clipShape(RoundedRectangle(cornerRadius: CornerRadius.medium))
-
+            .aspectRatio(AspectRatio.portrait, contentMode: .fit)
+            .clipShape(RoundedRectangle(cornerRadius: CornerRadius.medium))
+            
             Text(photo.caption)
                 .font(.subheadline)
                 .foregroundStyle(.primary)

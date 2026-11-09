@@ -70,7 +70,12 @@ struct FeedView: View {
     private func photoGrid(photos: [Photo]) -> some View {
         PhotoGridView(
             photos: photos,
-            onSelect: router.showPhoto,
+            onSelect: { photo in
+                Task {
+                    let selectedPhoto = await viewModel.photoForDetail(photo)
+                    router.showPhoto(selectedPhoto)
+                }
+            },
             onPhotoAppear: viewModel.loadNextPageIfNeeded
         ) {
             paginationFooter
@@ -91,7 +96,18 @@ struct FeedView: View {
 
     @ViewBuilder
     private var paginationFooter: some View {
-        if viewModel.isLoadingNextPage {
+        if viewModel.isShowingOfflinePhotos {
+            VStack(spacing: Spacing.small) {
+                Text(AppStrings.showingOfflinePhotos)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                Button(AppStrings.tryAgain) {
+                    viewModel.loadPhotos()
+                }
+            }
+            .frame(maxWidth: .infinity)
+            .padding(Spacing.large)
+        } else if viewModel.isLoadingNextPage {
             ProgressView(AppStrings.loadingPhotos)
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, Spacing.large)

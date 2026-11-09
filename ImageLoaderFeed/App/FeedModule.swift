@@ -4,9 +4,11 @@ import SwiftUI
 struct FeedModule {
     static func makeView(configuration: ServiceConfiguration) -> FeedView {
         let apiClient = APIClient()
+        let cache = PhotoFeedCache()
         let repository = UnsplashPhotoRepository(
             apiClient: apiClient,
-            configuration: configuration
+            configuration: configuration,
+            cache: cache
         )
         let photoFeedUseCase = PhotoFeedUseCase(repository: repository)
         let viewModel = FeedViewModel(photoFeedUseCase: photoFeedUseCase)

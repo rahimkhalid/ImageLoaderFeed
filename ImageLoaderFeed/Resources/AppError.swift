@@ -8,6 +8,7 @@ enum AppError: LocalizedError {
     case unauthorized
     case rateLimited
     case somethingWentWrong
+    case offline
 
     var errorDescription: String? {
         switch self {
@@ -25,6 +26,18 @@ enum AppError: LocalizedError {
             AppStrings.rateLimited
         case .somethingWentWrong:
             AppStrings.somethingWentWrong
+        case .offline:
+            AppStrings.offline
+        }
+    }
+
+    static func isConnectivityError(_ error: Error) -> Bool {
+        guard let error = error as? URLError else { return false }
+        switch error.code {
+        case .notConnectedToInternet, .networkConnectionLost, .timedOut:
+            return true
+        default:
+            return false
         }
     }
 }

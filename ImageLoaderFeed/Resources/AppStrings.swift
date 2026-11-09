@@ -9,6 +9,8 @@ enum AppStrings {
     static let tryAgain = "Try again"
     static let configurationRequiredTitle = "Configuration required"
     static let imageLoadError = "Image load failed"
+    static let showingOfflinePhotos = "Offline: Displaying saved photos"
+    static let offline = "Connect to the internet and try again."
     static let untitledPhoto = "A photo says it all..."
     static let previewPhotoDescription = "A longer photo description that wraps onto a second line."
 

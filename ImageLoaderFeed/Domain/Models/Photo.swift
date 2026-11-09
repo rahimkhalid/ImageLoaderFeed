@@ -1,10 +1,11 @@
 import Foundation
 
-struct Photo: Identifiable {
+struct Photo: Identifiable, Codable, Sendable {
     let id: String
     let caption: String
     let imageURL: ImageURLs?
     let photographerName: String?
+    var cachedImageData: Data? = nil
     
     var feedImage: URL? {
         imageURL?.small
@@ -14,7 +15,7 @@ struct Photo: Identifiable {
         imageURL?.regular
     }
     
-    struct ImageURLs {
+    struct ImageURLs: Codable, Sendable {
         let small: URL
         let regular: URL
     }

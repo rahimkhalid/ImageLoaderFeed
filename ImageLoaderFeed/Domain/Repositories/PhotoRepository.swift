@@ -1,4 +1,7 @@
+typealias PhotoFeedResult = Result<(photos: [Photo], isFromCache: Bool), Error>
+
 protocol PhotoRepository {
-    func photoFeed(page: Int, perPage: Int) async -> Result<[Photo], Error>
-    func searchPhotos(query: String, page: Int, perPage: Int) async -> Result<[Photo], Error>
+    func cachedPhoto(id: String) async -> Photo?
+    func photoFeed(page: Int, perPage: Int) async -> PhotoFeedResult
+    func searchPhotos(query: String, page: Int, perPage: Int) async -> PhotoFeedResult
 }

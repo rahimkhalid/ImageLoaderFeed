@@ -38,6 +38,11 @@ final class FeedViewModel: ObservableObject {
         !activeQuery.isEmpty
     }
 
+    var isShowingOfflinePhotos: Bool {
+        guard case .loaded = state else { return false }
+        return photoFeedUseCase.isFromCache
+    }
+
     init(photoFeedUseCase: PhotoFeedUseCase) {
         self.photoFeedUseCase = photoFeedUseCase
     }
@@ -47,9 +52,13 @@ final class FeedViewModel: ObservableObject {
     }
 
     private func hasMorePages(fetchedPhotoCount: Int) -> Bool {
-        fetchedPhotoCount == photoFeedUseCase.itemsPerPage
+        fetchedPhotoCount == photoFeedUseCase.itemsPerPage && !photoFeedUseCase.isFromCache
     }
     
+    func photoForDetail(_ photo: Photo) async -> Photo {
+        await photoFeedUseCase.photoForDetail(photo)
+    }
+
     func loadIfNeeded() {
         guard case .idle = state else { return }
         loadPhotos()

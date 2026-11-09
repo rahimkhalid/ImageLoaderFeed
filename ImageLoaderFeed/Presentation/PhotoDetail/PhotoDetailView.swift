@@ -7,8 +7,12 @@ struct PhotoDetailView: View {
     var body: some View {
         VStack(spacing: Spacing.large) {
             closeButton
-            photoImage
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
+            PhotoImage(
+                url: photo.fullPageImage,
+                cachedImageData: photo.cachedImageData,
+                contentMode: .fit
+            )
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
             photoDescription
                 .padding(Spacing.large)
         }
@@ -25,21 +29,6 @@ struct PhotoDetailView: View {
             .tint(Color.primary)
         }
         .padding(.horizontal, Spacing.small)
-    }
-
-    private var photoImage: some View {
-        AsyncImage(url: photo.fullPageImage) { phase in
-            switch phase {
-            case .empty:
-                ProgressView(AppStrings.loadingPhoto)
-            case .success(let image):
-                image
-                    .resizable()
-                    .scaledToFit()
-            default:
-                ContentUnavailableView(AppStrings.imageLoadError, systemImage: "photo")
-            }
-        }
     }
 
     private var photoDescription: some View {
