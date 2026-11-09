@@ -9,7 +9,7 @@ struct UnsplashPhotoDTO: Decodable {
     
     struct ImageURLs: Decodable {
         let small: URL
-        let full: URL
+        let regular: URL
     }
     
     struct Photographer: Decodable {
@@ -19,12 +19,12 @@ struct UnsplashPhotoDTO: Decodable {
     func toPhoto() -> Photo {
         let caption = [altDescription, description]
             .compactMap { $0?.trimmingCharacters(in: .whitespacesAndNewlines) }
-            .first { !$0.isEmpty } ?? ""
+            .first { !$0.isEmpty } ?? AppStrings.untitledPhoto
         
         return Photo(
             id: id,
             caption: caption,
-            imageURL: .init(small: urls.small, full: urls.full),
+            imageURL: .init(small: urls.small, regular: urls.regular),
             photographerName: user?.name
         )
     }

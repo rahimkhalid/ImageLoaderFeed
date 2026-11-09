@@ -10,6 +10,7 @@ struct FeedModule {
         )
         let photoFeedUseCase = PhotoFeedUseCase(repository: repository)
         let viewModel = FeedViewModel(photoFeedUseCase: photoFeedUseCase)
-        return FeedView(viewModel: viewModel)
+        let router = AppRouter()
+        return FeedView(viewModel: viewModel, router: router)
     }
 }

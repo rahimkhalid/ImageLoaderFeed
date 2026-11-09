@@ -2,14 +2,16 @@ import SwiftUI
 
 struct FeedView: View {
     @StateObject private var viewModel: FeedViewModel
+    @StateObject private var router: AppRouter
 
     private let columns = [
         GridItem(.flexible(), spacing: Spacing.medium, alignment: .top),
         GridItem(.flexible(), spacing: Spacing.medium, alignment: .top)
     ]
 
-    init(viewModel: FeedViewModel) {
+    init(viewModel: FeedViewModel, router: AppRouter) {
         _viewModel = StateObject(wrappedValue: viewModel)
+        _router = StateObject(wrappedValue: router)
     }
 
     var body: some View {
@@ -19,6 +21,9 @@ struct FeedView: View {
                 .task {
                     await viewModel.loadIfNeeded()
                 }
+        }
+        .fullScreenCover(item: $router.presentedRoute) { route in
+            router.destination(for: route)
         }
     }
 
@@ -58,19 +63,20 @@ struct FeedView: View {
         ScrollView {
             LazyVGrid(columns: columns, alignment: .leading, spacing: Spacing.extraLarge) {
                 ForEach(photos) { photo in
-                    VStack(alignment: .leading, spacing: Spacing.small) {
-                        PhotoCell(photo: photo)
-                    }
-                    .onAppear {
-                        Task {
-                            await viewModel.loadNextPageIfNeeded(currentPhotoID: photo.id)
+                    PhotoCell(photo: photo)
+                        .contentShape(Rectangle())
+                        .onTapGesture {
+                            router.showPhoto(photo)
                         }
-                    }
+                        .onAppear {
+                            Task {
+                                await viewModel.loadNextPageIfNeeded(currentPhotoID: photo.id)
+                            }
+                        }
                 }
             }
             .padding(.horizontal, Spacing.large)
             .padding(.vertical, Spacing.medium)
-
             paginationFooter
         }
     }

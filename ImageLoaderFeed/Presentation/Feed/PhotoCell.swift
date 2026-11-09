@@ -32,7 +32,7 @@ struct PhotoCell: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
             
             if let photographerName = photo.photographerName {
-                Text(AppStrings.photographerAttribution(photographerName))
+                Text(AppStrings.photographerName(photographerName))
                     .font(.caption)
                     .foregroundStyle(.secondary)
                     .lineLimit(2)

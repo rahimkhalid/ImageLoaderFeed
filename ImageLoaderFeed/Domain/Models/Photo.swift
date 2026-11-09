@@ -11,11 +11,11 @@ struct Photo: Identifiable {
     }
     
     var fullPageImage: URL? {
-        imageURL?.full
+        imageURL?.regular
     }
     
     struct ImageURLs {
         let small: URL
-        let full: URL
+        let regular: URL
     }
 }
