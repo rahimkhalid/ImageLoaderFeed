@@ -39,19 +39,44 @@ Requires Xcode with an iOS SDK and an iOS 17 or later simulator or device. No th
 The app uses **MVVM + Use Case + Repository**, with a router for presentation.
 
 ```mermaid
-flowchart TD
-    View[FeedView] <-->|Actions and state| VM[FeedViewModel]
-    VM <-->|Fetch photos| UseCase[PhotoFeedUseCase]
-    UseCase <-->|PhotoRepository protocol| Repository[UnsplashPhotoRepository]
-    Repository <-->|Requests and raw data| Client[APIClient]
-    Client <-->|HTTPS| API[🌐 Unsplash API]
-    Repository <-->|Save and load| Cache[💾 PhotoFeedCache]
-    View -->|Selected photo| Router[AppRouter]
-    Router -->|Creates and presents| Detail[PhotoDetailView]
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "Arial, sans-serif", "fontSize": "14px", "lineColor": "#64748B", "primaryTextColor": "#0F172A", "edgeLabelBackground": "#F8FAFC"}, "flowchart": {"curve": "basis", "nodeSpacing": 30, "rankSpacing": 45}}}%%
+flowchart TB
+    subgraph Presentation["01 · Presentation"]
+        View("FeedView") <-->|Actions · State| VM("FeedViewModel")
+        View -->|Open photo| Router("AppRouter")
+        Router -->|Present| Detail("PhotoDetailView")
+    end
 
-    classDef component fill:#E8F0FE,stroke:#345,color:#123
-    class View,VM,UseCase,Repository,Client,API,Cache,Router,Detail component
+    subgraph Domain["02 · Domain"]
+        UseCase("PhotoFeedUseCase")
+    end
+
+    subgraph Data["03 · Data"]
+        Repository("UnsplashPhotoRepository") <-->|Requests · Data| Client("APIClient")
+        Repository <-->|Save · Restore| Cache[("💾 PhotoFeedCache")]
+    end
+
+    VM <-->|Fetch · Results| UseCase
+    UseCase <-->|PhotoRepository protocol| Repository
+    Client <-->|HTTPS| API("🌐 Unsplash API")
+
+    classDef presentation fill:#EFF6FF,stroke:#3B82F6,stroke-width:1.5px,color:#1E3A8A
+    classDef domain fill:#F5F3FF,stroke:#8B5CF6,stroke-width:1.5px,color:#4C1D95
+    classDef data fill:#F0FDFA,stroke:#14B8A6,stroke-width:1.5px,color:#134E4A
+    classDef storage fill:#FFFBEB,stroke:#F59E0B,stroke-width:1.5px,color:#78350F
+    classDef external fill:#0F172A,stroke:#334155,stroke-width:1.5px,color:#FFFFFF
+
+    class View,VM,Router,Detail presentation
+    class UseCase domain
+    class Repository,Client data
+    class Cache storage
+    class API external
+
+    style Presentation fill:#F8FAFC,stroke:#CBD5E1,stroke-dasharray:4 4,color:#334155
+    style Domain fill:#F8FAFC,stroke:#CBD5E1,stroke-dasharray:4 4,color:#334155
+    style Data fill:#F8FAFC,stroke:#CBD5E1,stroke-dasharray:4 4,color:#334155
 ```
+
 
 - **Views** display state and forward user actions. `PhotoGridView` owns the lazy grid; `PhotoImage` handles remote images and cached image fallback for both screens.
 - **FeedViewModel** manages loading state, search, pagination, and retries.
@@ -94,6 +119,8 @@ The app uses Apple's frameworks only: SwiftUI for the interface, Combine for obs
 
 Profiling results will be added after measuring CPU usage, memory, and scroll responsiveness across several hundred photos.
 
+<img width="800" alt="Screenshot 2026-11-10 at 00 48 35" src="https://github.com/user-attachments/assets/294b6c7a-e8d7-4f69-8dcf-121db1e425e8" />
+
 ## Usage of AI
 
 AI assistance was used for:
@@ -103,11 +130,12 @@ AI assistance was used for:
 ## Screenshots
 | Screen or state | Screenshot |
 | --- | --- |
-| Editorial feed | To be added |
-| Search results | To be added |
-| Full-screen photo | To be added |
-| No internet connection, no saved data | To be added |
-| Offline feed with cached photos | To be added |
+| Editorial feed | <img width="200" alt="Screenshot iPhone 18 Pro 10 11 2026 at 00 52 42" src="https://github.com/user-attachments/assets/0d8f158c-c665-45b9-a356-f2e8af7ca143" /> |
+| Search results | <img width="200" alt="Screenshot iPhone 16 10 11 2026 at 00 03 41" src="https://github.com/user-attachments/assets/15614b05-787a-4028-bb0a-92028ca15107" /> |
+| Full-screen photo | <img width="200" alt="Screenshot iPhone 16 10 11 2026 at 00 03 16" src="https://github.com/user-attachments/assets/994339a7-dcb7-4698-907a-dc1274a1d36e" /> |
+| No internet connection, no saved data | <img width="200" alt="Screenshot iPhone 18 Pro 10 11 2026 at 00 55 13" src="https://github.com/user-attachments/assets/d00a2104-4535-4a26-a5a2-9c36cb00d1a3" /> |
+| Offline feed with cached photos | <img width="200" alt="Screenshot iPhone 16 10 11 2026 at 00 02 55" src="https://github.com/user-attachments/assets/d83041a0-79e4-4248-8450-3cd943cd1f37" /> |
+
 ## Flow video
 
-Video to be added: browsing, pagination, search, opening and closing a photo, and viewing cached photos offline.
+https://github.com/user-attachments/assets/ab0fe27e-db22-436a-808a-0f3085f0f8f6
