@@ -38,9 +38,10 @@ Requires Xcode with an iOS SDK and an iOS 17 or later simulator or device. No th
 
 The app uses **MVVM + Use Case + Repository**, with a router for presentation.
 
+
 ```mermaid
-%%{init: {"theme": "base", "themeVariables": {"fontFamily": "Arial, sans-serif", "fontSize": "14px", "lineColor": "#64748B", "primaryTextColor": "#0F172A", "edgeLabelBackground": "#F8FAFC"}, "flowchart": {"curve": "basis", "nodeSpacing": 30, "rankSpacing": 45}}}%%
-flowchart TB
+%%{init: {"theme": "base", "themeVariables": {"fontFamily": "Arial, sans-serif", "fontSize": "12px", "lineColor": "#64748B", "primaryTextColor": "#0F172A", "edgeLabelBackground": "#F8FAFC"}, "flowchart": {"htmlLabels": false, "curve": "basis", "nodeSpacing": 18, "rankSpacing": 28, "padding": 10}}}%%
+flowchart LR
     subgraph Presentation["01 · Presentation"]
         View("FeedView") <-->|Actions · State| VM("FeedViewModel")
         View -->|Open photo| Router("AppRouter")
@@ -60,22 +61,14 @@ flowchart TB
     UseCase <-->|PhotoRepository protocol| Repository
     Client <-->|HTTPS| API("🌐 Unsplash API")
 
-    classDef presentation fill:#EFF6FF,stroke:#3B82F6,stroke-width:1.5px,color:#1E3A8A
-    classDef domain fill:#F5F3FF,stroke:#8B5CF6,stroke-width:1.5px,color:#4C1D95
-    classDef data fill:#F0FDFA,stroke:#14B8A6,stroke-width:1.5px,color:#134E4A
-    classDef storage fill:#FFFBEB,stroke:#F59E0B,stroke-width:1.5px,color:#78350F
-    classDef external fill:#0F172A,stroke:#334155,stroke-width:1.5px,color:#FFFFFF
-
-    class View,VM,Router,Detail presentation
-    class UseCase domain
-    class Repository,Client data
-    class Cache storage
-    class API external
+    classDef component fill:#EFF6FF,stroke:#64748B,stroke-width:1px,color:#0F172A
+    class View,VM,Router,Detail,UseCase,Repository,Client,Cache,API component
 
     style Presentation fill:#F8FAFC,stroke:#CBD5E1,stroke-dasharray:4 4,color:#334155
     style Domain fill:#F8FAFC,stroke:#CBD5E1,stroke-dasharray:4 4,color:#334155
     style Data fill:#F8FAFC,stroke:#CBD5E1,stroke-dasharray:4 4,color:#334155
 ```
+
 
 
 - **Views** display state and forward user actions. `PhotoGridView` owns the lazy grid; `PhotoImage` handles remote images and cached image fallback for both screens.
