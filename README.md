@@ -120,8 +120,11 @@ Profiling results will be added after measuring CPU usage, memory, and scroll re
 ## Usage of AI
 
 AI assistance was used for:
-- Writing documentation (Readme)
-- Implementing caching behavior.
+
+- Writing and refining the README using documentation skills.
+- Creating and styling the architecture diagram using Mermaid and diagramming skills.
+- Agentic testing with Argent to check feature flows in the iOS simulator, including pagination, search, full-screen viewing, and offline caching.
+- Used support from AI to buit Caching mechanism which was implemented on top of existing codebase. Moreover, once the feature was implenented it was tested and verified using Agentic testing behaviour.
 
 ## Screenshots
 | Screen or state | Screenshot |
