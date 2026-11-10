@@ -41,25 +41,28 @@ The app uses **MVVM + Use Case + Repository**, with a router for presentation.
 
 ```mermaid
 %%{init: {"theme": "base", "themeVariables": {"fontFamily": "Arial, sans-serif", "fontSize": "12px", "lineColor": "#64748B", "primaryTextColor": "#0F172A", "edgeLabelBackground": "#F8FAFC"}, "flowchart": {"htmlLabels": false, "curve": "basis", "nodeSpacing": 18, "rankSpacing": 28, "padding": 10}}}%%
-flowchart LR
+flowchart TB
     subgraph Presentation["01 · Presentation"]
+        direction LR
         View("FeedView") <-->|Actions · State| VM("FeedViewModel")
         View -->|Open photo| Router("AppRouter")
         Router -->|Present| Detail("PhotoDetailView")
     end
 
     subgraph Domain["02 · Domain"]
+        direction LR
         UseCase("PhotoFeedUseCase")
     end
 
     subgraph Data["03 · Data"]
+        direction LR
         Repository("UnsplashPhotoRepository") <-->|Requests · Data| Client("APIClient")
         Repository <-->|Save · Restore| Cache[("💾 PhotoFeedCache")]
+        Client <-->|HTTPS| API("🌐 Unsplash API · External")
     end
 
-    VM <-->|Fetch · Results| UseCase
-    UseCase <-->|PhotoRepository protocol| Repository
-    Client <-->|HTTPS| API("🌐 Unsplash API")
+    Presentation <-->|Fetch · Results| Domain
+    Domain <-->|PhotoRepository protocol| Data
 
     classDef component fill:#EFF6FF,stroke:#64748B,stroke-width:1px,color:#0F172A
     class View,VM,Router,Detail,UseCase,Repository,Client,Cache,API component
